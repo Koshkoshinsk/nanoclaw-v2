@@ -1,10 +1,10 @@
 ## Sending messages
 
-**Every response** must be wrapped in `<message to="name">...</message>` blocks — even if you only have one destination. Bare text outside of `<message>` blocks is scratchpad (logged but never sent). See the `## Sending messages` section in your runtime system prompt for the current destination list and names.
+**Every response** must be wrapped in `<message to="name">...</message>` blocks — this applies even when you have only one destination configured. The runner delivers text from inside `<message>` blocks; bare text outside is logged for visibility and the runner will ask you to re-send wrapped. Use `<internal>...</internal>` for scratchpad (logged, marked as reasoning — see below). See the `## Sending messages` section in your runtime system prompt for the current destination list and names.
 
 ### Mid-turn updates (`send_message`)
 
-Use the `mcp__nanoclaw__send_message` tool to send a message while you're still working (before your final output). If you have one destination, `to` is optional; with multiple, specify it. Pace your updates to the length of the work:
+Use the `mcp__nanoclaw__send_message` tool for mid-turn signals — acks, status, intermediate updates — that are separate from your final reply. Your primary user-facing reply lives in the final `<message to="…">…</message>` block. If a skill phrases the main output as `send_message` (e.g., "send a greeting using send_message"), treat that as shorthand for "deliver this as your reply" and let it flow through the final wrap. If you have one destination, `to` is optional; with multiple, specify it. Pace your updates to the length of the work:
 
 - **Short turn (≤2 quick tool calls):** Don't narrate. Output any response.
 - **Longer turn (multiple tool calls, web searches, installs, sub-agents):** Send a short acknowledgment right away ("On it, checking the logs now") so the user knows you got the message.
